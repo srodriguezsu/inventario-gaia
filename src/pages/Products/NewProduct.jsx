@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Button, Dialog, DialogActions, DialogTitle, MenuItem, Select, Stack, TextField} from "@mui/material";
 import {useAlert} from "../../context/AlertContext";
 import {WooCommerce} from "../../API";
+import Cookies from "js-cookie";
 
 const defaultProduct = {
     name: "",
@@ -16,12 +17,13 @@ const defaultProduct = {
 
 const NewProduct = () => {
     const [open, setOpen] = useState(false);
-
+    const [isWorker, setIsWorker] = useState(true)
     const [possibleCategories, setPossibleCategories] = useState([]);
 
     const [selectedCategory, setSelectedCategory] = useState();
     const [newProduct, setNewProduct] = useState(defaultProduct);
     const { alertMessage } = useAlert();
+
 
     const handleInput = (e) => {
         const { id, value } = e.target;
@@ -59,11 +61,15 @@ const NewProduct = () => {
     };
 
     useEffect(() => {
+        const loginStatus = Cookies.get('loginStatus');
+        if (loginStatus === 'socio'){
+            setIsWorker(false)
+        }
         fetchCategories()
     }, []);
     return (
         <>
-            <Button variant="outlined" onClick={handleClickOpen}>
+            <Button variant="outlined" onClick={handleClickOpen} disabled={isWorker}>
                 Añadir nuevo
             </Button>
             <Dialog
@@ -78,7 +84,7 @@ const NewProduct = () => {
                         WooCommerce.post("products", newProduct)
                             .then((response) => {
                                 console.log(response.data);
-                                alertMessage("Producto creado con éxito", "sucess");
+                                alertMessage("Producto creado con éxito", "success");
                             })
                             .catch((error) => {
                                 console.log(error.response.data);

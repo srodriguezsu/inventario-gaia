@@ -47,7 +47,7 @@ const CustomersTable = () => {
                     <TableHead>
                         <TableRow>
                             <TableCell>ID</TableCell>
-                            <TableCell>Nombre</TableCell>
+                            <TableCell>Nombre de usuario</TableCell>
                             <TableCell>Email</TableCell>
                         </TableRow>
                     </TableHead>
@@ -56,12 +56,10 @@ const CustomersTable = () => {
 
                         {customers.map((customer) => {
 
-                            const name = customer?.first_name;
-                            const last_name = customer?.last_name;
                             return (
                                 <TableRow key={customer.id} onClick={() => navigate('/clientes/' + customer.id)}>
                                     <TableCell>{customer.id}</TableCell>
-                                    <TableCell>{name} {last_name}</TableCell>
+                                    <TableCell>{customer.username}</TableCell>
                                     <TableCell>{customer.email}</TableCell>
                                 </TableRow>
                             );

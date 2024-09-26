@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
     Button,
     Dialog, DialogActions,
@@ -23,9 +23,31 @@ const defaultSupply = {
 }
 
 const Stock = () => {
+    const isMounted = useRef(false);
+    const notify = (message) => {
+        if (!("Notification" in window)) {
+            alertMessage("Navegador no puede enviar notificaciones", "warning")
+
+        } else if (Notification.permission === "granted") {
+            new Notification(message);
+        } else if (Notification.permission !== "denied") {
+            // We need to ask the user for permission
+            Notification.requestPermission().then((permission) => {
+                // If the user accepts, let's create a notification
+                if (permission === "granted") {
+                    new Notification("Así serás notificado");
+                    // …
+                }
+            });
+        }
+
+        // At last, if the user has denied notifications, and you
+        // want to be respectful there is no need to bother them anymore.
+    }
     const [open, setOpen] = useState(false);
     const [newSupply, setNewSupply] = useState(defaultSupply);
     const [supplies, setSupplies] = useState([]);
+    const [isLowStock, setIsLowStock] = useState(false);
     const { alertMessage } = useAlert();
     const navigate = useNavigate();
     const handleInput = (e) => {
@@ -49,8 +71,23 @@ const Stock = () => {
     useEffect(() => {
         getSuppliesFromDB().then(res => {
             setSupplies(res);
+            setIsLowStock(res.filter(supply=>supply.stock_quantity < 10).length > 0);
+
         });
     }, [open]);
+
+    useEffect(() => {
+        if (!isMounted.current) {
+            isMounted.current = true;
+            return;
+        }
+        if (isLowStock && isMounted.current){
+            alertMessage("Hay insumos con baja disponibilidad", "warning");
+            notify("Hay insumos con baja disponibilidad");
+
+        }
+
+    }, [isLowStock]);
     return (
         <>
             <Typography variant="h1">Insumos</Typography>

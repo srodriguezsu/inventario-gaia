@@ -58,10 +58,10 @@ const CustomerForm = ({id}) => {
     }
     return (
         <Stack spacing={4} sx={{margin:'16px 0 0 0'}}>
-            <Typography variant="h3">Nombre de usuario: {customer.username}</Typography>
+            <Typography variant="h3">{customer.username}</Typography>
 
-            <TextField id="first_name" label="Nombre" value={customer.first_name} onChange={handleInput} />
-            <TextField id="last_name" label="Apellido" value={customer.last_name} onChange={handleInput} />
+            <TextField id="first_name" label="Nombre" value={customer.first_name ? customer.first_name : customer.shipping.first_name} onChange={handleInput} />
+            <TextField id="last_name" label="Apellido" value={customer.last_name ? customer.last_name : customer.shipping.last_name} onChange={handleInput} />
             <TextField id="email" label="Correo Electrónico" value={customer.email} onChange={handleInput} />
 
             <Button variant="contained" onClick={onUpdate}>Actualizar</Button>
