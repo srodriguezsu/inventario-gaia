@@ -13,14 +13,18 @@ import {
 import {useAlert} from "../../context/AlertContext";
 import {useNavigate} from "react-router-dom";
 import {addSupplyToDB, getSuppliesFromDB} from "../../components/SuppliesDB";
+import {formatter} from "../../components/utils";
 
+const defaultSupply = {
+    name: "",
+    price: 0,
+    stock_quantity: 0,
+    provider: "",
+}
 
 const Stock = () => {
     const [open, setOpen] = useState(false);
-    const [newSupply, setNewSupply] = useState({
-        name: "",
-        stock_quantity: 0,
-    });
+    const [newSupply, setNewSupply] = useState(defaultSupply);
     const [supplies, setSupplies] = useState([]);
     const { alertMessage } = useAlert();
     const navigate = useNavigate();
@@ -39,7 +43,7 @@ const Stock = () => {
 
     const handleClose = () => {
         setOpen(false);
-        setNewSupply({ name: "", stock_quantity: 0 });
+        setNewSupply(defaultSupply);
     };
 
     useEffect(() => {
@@ -49,7 +53,7 @@ const Stock = () => {
     }, [open]);
     return (
         <>
-            <Typography variant="h1">Inventario</Typography>
+            <Typography variant="h1">Insumos</Typography>
 
             <TableContainer>
                 <Table>
@@ -57,7 +61,9 @@ const Stock = () => {
                         <TableRow>
                             <TableCell>ID</TableCell>
                             <TableCell>Nombre</TableCell>
+                            <TableCell>Precio Unitario</TableCell>
                             <TableCell>Disponibilidad</TableCell>
+                            <TableCell>Proveedor</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -65,7 +71,9 @@ const Stock = () => {
                             <TableRow key={index} onClick={() => navigate('/inventario/' + supply.id)}>
                                 <TableCell>{supply.id}</TableCell>
                                 <TableCell>{supply.name}</TableCell>
+                                <TableCell>{formatter.format(supply.price)}</TableCell>
                                 <TableCell>{supply.stock_quantity}</TableCell>
+                                <TableCell>{supply.provider}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
@@ -105,10 +113,24 @@ const Stock = () => {
                     />
                     <TextField
                         required
+                        id="price"
+                        label="Precio Unitario"
+                        variant="standard"
+                        type="number" // Ensure it's a number input
+                        onChange={handleInput}
+                    />
+                    <TextField
+                        required
                         id="stock_quantity"
                         label="Cantidad"
                         variant="standard"
                         type="number" // Ensure it's a number input
+                        onChange={handleInput}
+                    />
+                    <TextField
+                        id="provider"
+                        label="Proveedor"
+                        variant="standard"
                         onChange={handleInput}
                     />
                 </Stack>

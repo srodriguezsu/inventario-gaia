@@ -60,10 +60,24 @@ const StocksForm = ({id}) => {
                 onChange={handleInput}
             />
             <TextField
+                id='price'
+                label="Precio Unitario"
+                type="number"
+                value={supply.price}
+                onChange={handleInput}
+            />
+            <TextField
                 id='stock_quantity'
                 label="Cantidad"
                 type="number"
                 value={supply.stock_quantity.toString()}
+                onChange={handleInput}
+            />
+            <TextField
+                id='provider'
+                label="Proveedor"
+
+                value={supply.provider}
                 onChange={handleInput}
             />
             <Button onClick={() => {

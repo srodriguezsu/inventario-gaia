@@ -48,7 +48,7 @@ const MainMenu = ({children}) => {
             <Toolbar />
             <Divider />
             <List>
-                {[{name: 'Inicio', slug: '/'}, {name: 'Inventario', slug: '/inventario'},{name: 'Pedidos', slug: '/pedidos'}, {name: 'Productos', slug:'/productos'}, {name: 'Clientes', slug:'/clientes'}].map((item:{name:string, slug:string}) => (
+                {[{name: 'Inicio', slug: '/'}, {name: 'Insumos', slug: '/inventario'},{name: 'Pedidos', slug: '/pedidos'}, {name: 'Productos', slug:'/productos'}, {name: 'Clientes', slug:'/clientes'}].map((item:{name:string, slug:string}) => (
                     <ListItem key={item.name} disablePadding onClick={()=>navigate(item.slug)}>
                         <ListItemButton>
                             <ListItemIcon>

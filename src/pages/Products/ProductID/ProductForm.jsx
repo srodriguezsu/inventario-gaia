@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {Button, CardMedia, CircularProgress, Stack, TextField} from '@mui/material';
+import {Button, CardMedia, CircularProgress, Stack, Tab, TextField} from '@mui/material';
 import { WooCommerce } from '../../../API';
 import { useAlert } from '../../../context/AlertContext';
 import Cookies from "js-cookie";
@@ -11,6 +11,7 @@ const ProductForm = ({ id }) => {
         regular_price: '',
         description: '',
         stock_quantity: '',
+        sku: '',
     });
     const [loading, setLoading] = useState(true);
     const [isWorker, setIsWorker] = useState(true)
@@ -79,6 +80,8 @@ const ProductForm = ({ id }) => {
                     alt={product?.images[0].alt || 'Imagen del producto'}
                 />
             )}
+
+
             <TextField
                 id="name"
                 label="Nombre del Producto"
@@ -87,10 +90,25 @@ const ProductForm = ({ id }) => {
                 onChange={handleInput}
             />
             <TextField
+                id="sku"
+                label="SKU"
+                disabled={isWorker}
+                value={product.sku}
+                onChange={handleInput}
+            />
+            <TextField
                 disabled={isWorker}
                 id="regular_price"
                 label="Precio"
                 value={product.regular_price}
+                onChange={handleInput}
+            />
+            <TextField
+                disabled={isWorker}
+
+                id="short_description"
+                label="Descripción corta"
+                value={product.short_description}
                 onChange={handleInput}
             />
             <TextField
