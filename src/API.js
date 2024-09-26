@@ -7,7 +7,7 @@ export const WooCommerce = new WooCommerceRestApi({
     consumerSecret: gaiaSecretKey,
     url: 'https://gaia.intfinity.co',
     version: 'wc/v3',
-    axiosConfig: {
-        headers: {}
-    }
+    // axiosConfig: {
+    //     headers: {}
+    // }
 });
